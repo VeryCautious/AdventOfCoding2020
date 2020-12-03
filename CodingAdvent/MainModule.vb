@@ -1,8 +1,8 @@
 ﻿Imports CautiousDotNetExtensionLib
-Module Module1
+Module MainModule
 
     Sub Main()
-        My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent"
+        My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
         Day4()
         Console.ReadKey()
