@@ -10,8 +10,30 @@ Module MainModule
 
 
     Private Sub Day4()
-        Dim Inp = GetInpLineByLine(4)
 
+        Dim NeededTags = {"pid", "ecl", "hcl", "byr", "iyr", "eyr", "hgt"}
+
+        Dim MappingFunction = Function(line As String, PassPortStringList As List(Of String)) As List(Of String)
+                                  If line = "" Then
+                                      PassPortStringList.Add("")
+                                  Else
+                                      Dim i = PassPortStringList.Count - 1
+                                      If PassPortStringList(i) = "" Then
+                                          PassPortStringList(i) = line
+                                      Else
+                                          PassPortStringList(i) += " " + line
+                                      End If
+                                  End If
+                                  Return PassPortStringList
+                              End Function
+
+        Dim Inp = GetInpLineByLine(4).Fold(MappingFunction, {""}.ToList)
+        Dim Passports = Inp.Map(Function(Data As String) New Passport(Data))
+        Passports.RemoveAll(Function(P As Passport) Not P.HasKeys(NeededTags))
+        Console.WriteLine(String.Format("There are {0} passports with valid keys", Passports.Count))
+
+        Passports.RemoveAll(Function(P As Passport) Not P.HasValidData)
+        Console.WriteLine(String.Format("There are {0} valid passports", Passports.Count))
     End Sub
 
     Private Sub Day3()
@@ -47,13 +69,8 @@ Module MainModule
         Dim Inp = GetInpLineByLine(2).Map(Func)
         Dim Inp2 = Inp.Clone
 
-        Inp.RemoveAll(Function(C As Condition) As Boolean
-                          Return Not C.IsValidOld
-                      End Function)
-
-        Inp2.RemoveAll(Function(C As Condition) As Boolean
-                           Return Not C.IsValidNew
-                       End Function)
+        Inp.RemoveAll(Function(C As Condition) Not C.IsValidOld)
+        Inp2.RemoveAll(Function(C As Condition) Not C.IsValidNew)
 
         Console.WriteLine(Inp.Count.ToString + " Passwords are correct in old!")
         Console.WriteLine(Inp2.Count.ToString + " Passwords are correct in new!")
