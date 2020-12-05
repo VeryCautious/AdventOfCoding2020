@@ -4,10 +4,37 @@ Module MainModule
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day4()
+        Day5()
         Console.ReadKey()
     End Sub
 
+
+    Private Sub Day5()
+
+        Dim BinStrToNbr = Function(S As String) As Integer
+                              Return S.ToCharArray.Fold(Function(c, acc) Integer.Parse(c) + 2 * acc, 0)
+                          End Function
+
+        Dim InpSplitRowCol = GetInpLineByLine(5).
+            Map(Function(s As String) s.Replace("F", "0").Replace("B", "1").Replace("L", "0").Replace("R", "1")).
+            Map(Function(s As String) {s.Substring(0, 7), s.Substring(7)})
+        Dim Bin = InpSplitRowCol.Map(Function(s As String()) {BinStrToNbr(s(0)), BinStrToNbr(s(1))})
+        Dim SeatIDs = Bin.Map(Function(RowCol As Integer()) RowCol(0) * 8 + RowCol(1))
+        SeatIDs.Sort()
+
+        Dim Nbrs = GetIndexCollection(0, 128 * 8 + 7).ToList
+        Nbrs.RemoveAll(Function(x As Integer) SeatIDs.Contains(x))
+
+        Dim MySeat As Integer = -1
+        For Each PossibleSeatID In Nbrs
+            If SeatIDs.Contains(PossibleSeatID - 1) AndAlso SeatIDs.Contains(PossibleSeatID + 1) Then
+                MySeat = PossibleSeatID
+                Exit For
+            End If
+        Next
+        Console.WriteLine(String.Format("The highest seatID is {0}", SeatIDs.Last))
+        Console.WriteLine("My Seat is " + MySeat.ToString)
+    End Sub
 
     Private Sub Day4()
 
@@ -28,11 +55,11 @@ Module MainModule
                               End Function
 
         Dim Inp = GetInpLineByLine(4).Fold(MappingFunction, {""}.ToList)
-        Dim Passports = Inp.Map(Function(Data As String) New Passport(Data))
-        Passports.RemoveAll(Function(P As Passport) Not P.HasKeys(NeededTags))
+        Dim Passports = Inp.Map(Function(Data As String) New Day4.Passport(Data))
+        Passports.RemoveAll(Function(P As Day4.Passport) Not P.HasKeys(NeededTags))
         Console.WriteLine(String.Format("There are {0} passports with valid keys", Passports.Count))
 
-        Passports.RemoveAll(Function(P As Passport) Not P.HasValidData)
+        Passports.RemoveAll(Function(P As Day4.Passport) Not P.HasValidData)
         Console.WriteLine(String.Format("There are {0} valid passports", Passports.Count))
     End Sub
 

@@ -119,6 +119,7 @@
     <Content Include="Inputs\Inp2.txt" />
     <Content Include="Inputs\Inp3.txt" />
     <Content Include="Inputs\Inp4.txt" />
+    <Content Include="Inputs\Inp5.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
