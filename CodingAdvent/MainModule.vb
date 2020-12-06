@@ -10,7 +10,7 @@ Module MainModule
 
 
     Private Sub Day6()
-        ''I know that this not not clean code, but I just want to try some stuff out :P
+        ''I know that this is not clean code, but I just want to try some stuff out :P
         Dim SummOfDistincAnswersByGroups = GetInpLineByLine(6).
             Fold(Function(Line As String, Acc As List(Of List(Of Char)))
                      If Line = "" Then
