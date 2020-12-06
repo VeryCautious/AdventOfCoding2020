@@ -4,10 +4,58 @@ Module MainModule
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day5()
+        Day6()
         Console.ReadKey()
     End Sub
 
+
+    Private Sub Day6()
+        ''I know that this not not clean code, but I just want to try some stuff out :P
+        Dim SummOfDistincAnswersByGroups = GetInpLineByLine(6).
+            Fold(Function(Line As String, Acc As List(Of List(Of Char)))
+                     If Line = "" Then
+                         Acc.Add(New List(Of Char))
+                     Else
+                         Acc(Acc.Count - 1).AddRange(Line.ToCharArray)
+                     End If
+                     Return Acc
+                 End Function, {New List(Of Char)}.ToList).
+            Map(Function(L As List(Of Char)) L.Distinct.Count).
+            Fold(Function(i As Integer, acc As Integer) i + acc, 0)
+
+        Console.WriteLine(String.Format("The Summ of Answers anyone answered yes to is {0}", SummOfDistincAnswersByGroups))
+
+        Dim SummOfAnswersWhereEveryOneSaidYes = GetInpLineByLine(6).
+            Fold(Function(Line As String, Acc As List(Of Dictionary(Of Char, Integer)))
+                     If Line = "" Then
+                         Dim Dict = New Dictionary(Of Char, Integer) From {
+                             {"#"c, 0}
+                         }
+                         Acc.Add(Dict)
+                     Else
+                         Dim Dict = Acc(Acc.Count - 1)
+                         For Each C In Line.ToArray
+                             If Not Dict.ContainsKey(C) Then
+                                 Dict.Add(C, 1)
+                             Else
+                                 Dict(C) += 1
+                             End If
+                         Next
+                         Dict("#"c) += 1
+                     End If
+                     Return Acc
+                 End Function, {New Dictionary(Of Char, Integer) From {{"#"c, 0}}}.ToList).
+            Map(Function(Dict As Dictionary(Of Char, Integer)) As Integer
+                    Dim I As Integer = 0
+                    For Each KV In Dict
+                        If Not KV.Key = "#"c AndAlso KV.Value = Dict("#"c) Then
+                            I += 1
+                        End If
+                    Next
+                    Return I
+                End Function).Sum()
+        Console.WriteLine(String.Format("Summ where EVERYONE said yes is {0}", SummOfAnswersWhereEveryOneSaidYes))
+    End Sub
 
     Private Sub Day5()
 
