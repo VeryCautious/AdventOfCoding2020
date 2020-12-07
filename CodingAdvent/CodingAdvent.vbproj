@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Day4\Passport.vb" />
+    <Compile Include="Day7\Rule.vb" />
     <Compile Include="Ext.vb" />
     <Compile Include="MainModule.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -121,6 +122,8 @@
     <Content Include="Inputs\Inp4.txt" />
     <Content Include="Inputs\Inp5.txt" />
     <Content Include="Inputs\Inp6.txt" />
+    <Content Include="Inputs\Inp7.txt" />
+    <Content Include="Inputs\Inp7_1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

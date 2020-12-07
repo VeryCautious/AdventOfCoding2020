@@ -1,11 +1,61 @@
-﻿Imports CautiousDotNetExtensionLib
-Module MainModule
+﻿Module MainModule
 
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day6()
+        Day7()
         Console.ReadKey()
+    End Sub
+
+    Private Sub Day8()
+        Dim RawInput = GetInpLineByLine(8)
+
+
+    End Sub
+
+    Private Sub Day7()
+        Dim RawInput = GetInpLineByLine(7)
+        Dim InpRules = RawInput.Map(Function(Line As String) New Day7.Rule(Line))
+
+        Dim CanDeriveGoldDict As New Dictionary(Of String, Day7.Rule)
+        Dim NotCheckedParants As New List(Of Day7.Rule)
+
+
+        NotCheckedParants = InpRules.Map(Function(x) x)
+        NotCheckedParants.RemoveAll(Function(r) Not r.OuterBagCanContain("shiny gold", 1))
+        For Each Item In NotCheckedParants
+            CanDeriveGoldDict.Add(Item.OuterBag, Item)
+        Next
+
+        If NotCheckedParants.Count > 0 Then
+            Do
+                Dim NewFoundRules As New List(Of Day7.Rule)
+
+                Dim MasterRule = NotCheckedParants(0)
+                NotCheckedParants.RemoveAt(0)
+
+                Dim CopyInp = InpRules.Map(Function(x) x)
+                CopyInp.RemoveAll(Function(r) Not r.OuterBagCanContain(MasterRule.OuterBag, 1))
+                CopyInp.RemoveAll(Function(r) CanDeriveGoldDict.ContainsKey(r.OuterBag))
+                NewFoundRules.AddRange(CopyInp)
+
+                For Each Item In NewFoundRules
+                    CanDeriveGoldDict.Add(Item.OuterBag, Item)
+                    NotCheckedParants.Add(Item)
+                Next
+            Loop While NotCheckedParants.Count > 0
+        End If
+
+
+        Console.WriteLine(String.Format("{0} Rules can lead to you packing a gold bag", CanDeriveGoldDict.Count))
+
+
+        Dim RuleDict As New Dictionary(Of String, Day7.Rule)
+        For Each Item In InpRules
+            RuleDict.Add(Item.OuterBag, Item)
+        Next
+
+        Console.WriteLine(String.Format("{0} Bags are needed for a shiny gold bag", RuleDict("shiny gold").BagsNeeded(RuleDict) - 1))
     End Sub
 
 
@@ -203,7 +253,11 @@ Module MainModule
     End Sub
 
     Private Function GetInpLineByLine(Index As Integer) As List(Of String)
-        Return My.Computer.FileSystem.ReadAllText("Inp" + Index.ToString + ".txt").Replace(vbNewLine, "§").Split("§"c).ToList
+        Return GetInpLineByLine(Index.ToString)
+    End Function
+
+    Private Function GetInpLineByLine(Index As String) As List(Of String)
+        Return My.Computer.FileSystem.ReadAllText("Inp" + Index + ".txt").Replace(vbNewLine, "§").Split("§"c).ToList
     End Function
 
 End Module
