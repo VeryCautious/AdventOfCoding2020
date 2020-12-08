@@ -3,14 +3,42 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day7()
+        Day8()
         Console.ReadKey()
     End Sub
 
     Private Sub Day8()
         Dim RawInput = GetInpLineByLine(8)
+        Dim HHConsole As New Day8.HandHeldConsoleSimulator(RawInput.ToArray)
+        HHConsole.StartSimulation()
+        Console.WriteLine("The final accumulatorvalue is " + HHConsole.AccumulatorValue.ToString)
 
 
+        For I As Integer = 0 To RawInput.Count - 1
+
+            Dim repFunc As Func(Of String, String)
+            If RawInput(I).StartsWith("nop") Then
+                repFunc = Function(S) S.Replace("nop", "jmp")
+            ElseIf RawInput(I).StartsWith("jmp") Then
+                repFunc = Function(S) S.Replace("jmp", "nop")
+            Else
+                Continue For
+            End If
+
+            Dim CopyOfCode = RawInput.ToArray
+            CopyOfCode(I) = repFunc(CopyOfCode(I))
+            Dim TestConsole As New Day8.HandHeldConsoleSimulator(CopyOfCode)
+            TestConsole.StartSimulation()
+
+            If TestConsole.Terminated Then
+                Console.WriteLine("Terminated!")
+                Console.WriteLine("Replaced cmd in line " + I.ToString)
+                Console.WriteLine("The final accumulatorvalue of the fixed console is " + TestConsole.AccumulatorValue.ToString)
+                Exit Sub
+            End If
+        Next
+
+        Console.WriteLine("Found nothing...")
     End Sub
 
     Private Sub Day7()
