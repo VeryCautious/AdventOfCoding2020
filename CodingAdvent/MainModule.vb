@@ -3,8 +3,40 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day8()
+        Day9()
         Console.ReadKey()
+    End Sub
+
+    Private Sub Day9()
+        Dim RawInput = GetInpLineByLine(9).Map(Function(s) CType(s, ULong))
+        Dim XCypher As New Day9.XChiperReader(25)
+
+        Try
+            For Each Item In RawInput
+                XCypher.ReadInteger(Item)
+            Next
+        Catch ex As ArgumentException
+            Console.WriteLine(XCypher.PeekLast.ToString + " did not match the pattern")
+        End Try
+
+        Dim InvalidNumber = XCypher.PeekLast
+        Dim SetSize As Integer = 2
+
+        While SetSize <= RawInput.Count
+
+            For I As Integer = 0 To RawInput.Count - SetSize
+                Dim SubSet = RawInput.GetRange(I, SetSize)
+                If SubSet.Fold(Function(v, acc) acc + v, CType(0, ULong)) = InvalidNumber Then
+                    SubSet.Sort()
+                    Console.WriteLine(String.Format("The weakness is {0}", SubSet.First + SubSet.Last))
+                    Exit Sub
+                End If
+            Next
+
+            SetSize += 1
+        End While
+
+        Console.WriteLine("Did not find a weakness")
     End Sub
 
     Private Sub Day8()
