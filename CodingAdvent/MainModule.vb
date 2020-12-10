@@ -3,8 +3,77 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day9()
+        Day10()
         Console.ReadKey()
+    End Sub
+
+    Private Sub Day10()
+        Dim RawInput = GetInpLineByLine(10).Map(Function(s) CType(s, Integer))
+        RawInput.Sort()
+        RawInput.Add(RawInput.Last() + 3) 'Your device has 3 higher than the highest adapter
+        Dim CanUseAll = RawInput.Fold(Function(i, acc) New Tuple(Of Integer, Boolean)(i, acc.Item1 + 3 >= i), New Tuple(Of Integer, Boolean)(0, True)).Item2
+        '' The 0 outlett is implicitly encoded in the 0 value of the acc at start of the fold
+
+        Debug.Assert(RawInput.Count = RawInput.Distinct.Count) '' Just checking if there are multiple adapters of same type
+
+        Dim delta = RawInput.Fold(
+            Function(i, acc)
+                Dim diff = i - acc.LastItem
+                Return New Day10.DeltaStruct With {
+                    .LastItem = i,
+                    .OneStepDeltas = If(diff = 1, acc.OneStepDeltas + 1, acc.OneStepDeltas),
+                    .ThreeStepDeltas = If(diff = 3, acc.ThreeStepDeltas + 1, acc.ThreeStepDeltas)
+                }
+            End Function,
+            New Day10.DeltaStruct With {.LastItem = 0, .OneStepDeltas = 0, .ThreeStepDeltas = 0})
+
+        If CanUseAll Then
+            Console.WriteLine(String.Format("The difference between outlet and your phone ist {0}OneJoldDiff * {1}ThreeJoltDiff =  {2}",
+                                            delta.OneStepDeltas, delta.ThreeStepDeltas, delta.OneStepDeltas * delta.ThreeStepDeltas))
+        Else
+            Console.WriteLine("You can not use all adapters!")
+        End If
+
+        '' To following naive code would work, but its just way to slow...
+
+        'Dim NeededEndJolt = RawInput.Last
+        'RawInput.Insert(0, 0)
+        'Dim Adapters = RawInput.ToArray
+
+        'Dim StepList As New List(Of Day10.StepStone) From {New Day10.StepStone}
+
+        'While Not StepList.TrueForAll(Function(s) s.IsDone(Adapters))
+        '    Dim NewStepList As New List(Of Day10.StepStone)
+
+        '    For Each Item In StepList
+        '        If Item.IsDone(Adapters) Then
+        '            NewStepList.Add(Item)
+        '        Else
+        '            NewStepList.AddRange(Item.GetAllPossibleNextSteps(Adapters))
+        '        End If
+        '    Next
+
+        '    StepList = NewStepList
+        'End While
+
+        'Console.WriteLine(String.Format("There are {0} ways to arrange the adapters", StepList.Count))
+
+        ''And thats how we got from a O(3^N) algorithm to an O(N) ;)
+        RawInput.Insert(0, 0)
+        Dim Adapters = RawInput.ToArray
+        Dim WayToGetHere(0 To Adapters.Count - 1) As ULong
+        WayToGetHere(0) = 1
+
+        For I As Integer = 0 To WayToGetHere.Count - 1
+            For d As Integer = 1 To Math.Min(3, Adapters.Count - (I + 1))
+                If Adapters(I + d) - Adapters(I) <= 3 Then
+                    WayToGetHere(I + d) += WayToGetHere(I)
+                End If
+            Next
+        Next
+
+        Console.WriteLine(String.Format("There are {0} ways to arrange the adapters", WayToGetHere.Last))
+
     End Sub
 
     Private Sub Day9()

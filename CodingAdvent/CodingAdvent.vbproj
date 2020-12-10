@@ -74,6 +74,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Day10\DeltaStruct.vb" />
     <Compile Include="Day4\Passport.vb" />
     <Compile Include="Day7\Rule.vb" />
     <Compile Include="Day8\HandHeldConsoleSimulator.vb" />
@@ -119,6 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Inputs\Inp1.txt" />
+    <Content Include="Inputs\Inp10.txt" />
+    <Content Include="Inputs\Inp10_1.txt" />
     <Content Include="Inputs\Inp2.txt" />
     <Content Include="Inputs\Inp3.txt" />
     <Content Include="Inputs\Inp4.txt" />
