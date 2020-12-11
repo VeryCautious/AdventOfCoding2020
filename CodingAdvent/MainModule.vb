@@ -3,8 +3,36 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day10()
+        Day11()
         Console.ReadKey()
+    End Sub
+
+
+    Private Sub Day11()
+        Dim RawInput = GetInpLineByLine(11)
+
+        Dim Ferry As New Day11.Ferry(RawInput)
+        Dim NextState = Ferry.CalculateNextState
+
+        While Not Ferry.AreSame(NextState)
+            Ferry.State = NextState
+            NextState = Ferry.CalculateNextState
+        End While
+
+        Console.WriteLine("Seats taken: " + Ferry.OccupiedSeats.ToString)
+
+
+        Dim Ferry2 As New Day11.OtherFerry(RawInput)
+        NextState = Ferry2.CalculateNextState
+
+        While Not Ferry2.AreSame(NextState)
+            Ferry2.State = NextState
+            'Console.WriteLine(Ferry2.ToString)
+            'Console.ReadKey()
+            NextState = Ferry2.CalculateNextState
+        End While
+
+        Console.WriteLine("Seats taken: " + Ferry2.OccupiedSeats.ToString)
     End Sub
 
     Private Sub Day10()
