@@ -3,10 +3,28 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day11()
+        Day12()
         Console.ReadKey()
     End Sub
 
+    Private Sub Day12()
+        Dim RawInput = GetInpLineByLine(12)
+        Dim Ship As New Day12.Ship
+
+        For Each Inp In RawInput
+            Ship.HandleInput(Inp)
+        Next
+
+        Console.WriteLine("The Manhattan Dist is " + Ship.ManhattanDistance.ToString)
+
+        Dim Ship2 As New Day12.WayPointShip
+
+        For Each Inp In RawInput
+            Ship2.HandleInput(Inp)
+        Next
+
+        Console.WriteLine("The Manhattan Dist is " + Ship2.ManhattanDistance.ToString)
+    End Sub
 
     Private Sub Day11()
         Dim RawInput = GetInpLineByLine(11)

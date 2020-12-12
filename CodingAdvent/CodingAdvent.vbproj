@@ -52,9 +52,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CautiousDotNetExtensionLib\CautiousDotNetExtensionLib\bin\Debug\netstandard2.0\CautiousDotNetExtensionLib.dll</HintPath>
     </Reference>
+    <Reference Include="CautiousMathLib">
+      <HintPath>..\..\CautiousMathLib\CautiousMathLib\bin\Debug\netstandard2.0\CautiousMathLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -76,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Day10\DeltaStruct.vb" />
     <Compile Include="Day11\Ferry.vb" />
+    <Compile Include="Day12\Ship.vb" />
     <Compile Include="Day4\Passport.vb" />
     <Compile Include="Day7\Rule.vb" />
     <Compile Include="Day8\HandHeldConsoleSimulator.vb" />
@@ -125,6 +130,7 @@
     <Content Include="Inputs\Inp10.txt" />
     <Content Include="Inputs\Inp10_1.txt" />
     <Content Include="Inputs\Inp11.txt" />
+    <Content Include="Inputs\Inp12.txt" />
     <Content Include="Inputs\Inp2.txt" />
     <Content Include="Inputs\Inp3.txt" />
     <Content Include="Inputs\Inp4.txt" />
