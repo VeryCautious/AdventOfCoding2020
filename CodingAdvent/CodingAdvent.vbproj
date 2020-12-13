@@ -81,6 +81,7 @@
     <Compile Include="Day10\DeltaStruct.vb" />
     <Compile Include="Day11\Ferry.vb" />
     <Compile Include="Day12\Ship.vb" />
+    <Compile Include="Day13\ModOp.vb" />
     <Compile Include="Day4\Passport.vb" />
     <Compile Include="Day7\Rule.vb" />
     <Compile Include="Day8\HandHeldConsoleSimulator.vb" />
@@ -131,6 +132,8 @@
     <Content Include="Inputs\Inp10_1.txt" />
     <Content Include="Inputs\Inp11.txt" />
     <Content Include="Inputs\Inp12.txt" />
+    <Content Include="Inputs\Inp13.txt" />
+    <Content Include="Inputs\Inp13_1.txt" />
     <Content Include="Inputs\Inp2.txt" />
     <Content Include="Inputs\Inp3.txt" />
     <Content Include="Inputs\Inp4.txt" />

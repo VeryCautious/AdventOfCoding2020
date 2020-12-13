@@ -3,8 +3,25 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day12()
+        FDay13()
         Console.ReadKey()
+    End Sub
+
+    Private Sub FDay13()
+        Dim RawInput = GetInpLineByLine(13)
+        Dim TimeSpamp = CInt(RawInput(0))
+        Dim BusIDs = RawInput(1).Split(","c).ToList.Filter(Function(s) s = "x").Map(Function(s) CInt(s))
+
+        Dim TimesToWait = BusIDs.
+            Map(Function(ID) New Tuple(Of Integer, Integer)(TimeSpamp Mod ID, ID)).
+            Map(Function(t) If(t.Item1 = 0, t, New Tuple(Of Integer, Integer)(t.Item2 - t.Item1, t.Item2)))
+        TimesToWait.Sort()
+        Console.WriteLine(String.Format("ID * TimetoWait = {0}", TimesToWait(0).Item1 * TimesToWait(0).Item2))
+
+        Dim BusIDIndex = RawInput(1).Split(","c).ToList.ZipWithIndex.ToList.Filter(Function(s) s.Value = "x").Map(Function(s) New IndexValuePair(Of Integer)(s.Index, CInt(s.Value)))
+        Dim Modulo As Long = BusIDs.Fold(Function(i, acc) CLng(i) * acc, CLng(1))
+        Dim Busses = BusIDIndex.Map(Function(iv) New Tuple(Of Integer, Integer)(-iv.Index, iv.Value))
+        Console.WriteLine(Day13.ChinRem(Busses, Modulo))
     End Sub
 
     Private Sub Day12()
