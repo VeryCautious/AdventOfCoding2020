@@ -3,8 +3,22 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        FDay13()
+        Day14()
         Console.ReadKey()
+    End Sub
+
+    Private Sub Day14()
+        Dim RawInput = GetInpLineByLine(14)
+        Dim Computer As New Day14.DockingComputer
+        For Each Cmd In RawInput
+            Computer.ReciveCommand(Cmd)
+        Next
+
+        Dim Computer2 As New Day14.DockingComputer2
+        For Each Cmd In RawInput
+            Computer2.ReciveCommand(Cmd)
+        Next
+        Console.WriteLine(Computer2.GetSumm())
     End Sub
 
     Private Sub FDay13()
