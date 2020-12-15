@@ -3,8 +3,36 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day14()
+        Day15()
         Console.ReadKey()
+    End Sub
+
+    Private Sub Day15()
+        Dim Inp = {1, 0, 18, 10, 19, 6}
+        Dim D As New Dictionary(Of Integer, Integer)
+        For I As Integer = 0 To Inp.Count - 2
+            D.Add(Inp(I), I)
+        Next
+
+        Dim ToNbr1 = 2020
+        Dim ToNbr2 = 30000000
+
+        Dim NextVal As Integer = Inp(Inp.Count - 1)
+        For i As Integer = Inp.Count To ToNbr2 - 1
+            If D.ContainsKey(NextVal) Then
+                Dim lastSeen = D(NextVal)
+                D(NextVal) = i - 1
+                NextVal = i - (lastSeen + 1)
+            Else
+                D.Add(NextVal, i - 1)
+                NextVal = 0
+            End If
+            If i = ToNbr1 - 1 Then
+                Console.WriteLine(NextVal)
+            End If
+        Next
+
+        Console.WriteLine(NextVal)
     End Sub
 
     Private Sub Day14()
