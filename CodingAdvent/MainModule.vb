@@ -3,8 +3,56 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day15()
+        Day16()
         Console.ReadKey()
+    End Sub
+
+    Private Sub Day16()
+        ''Again... not clean code but I hade a busy day ;)
+        Dim RawInput = GetInpLineByLine(16)
+        Dim Rules = RawInput.Take(RawInput.FindIndex(Function(s) s = "your ticket:") - 1).ToList.
+            Fold(Function(S, acc)
+                     Dim sp = S.Match("{0}: {1}-{2} or {3}-{4}")
+                     acc.AddRange({New Day16.Range(sp(0), CUInt(sp(1)), CUInt(sp(2))), New Day16.Range(sp(0), CUInt(sp(3)), CUInt(sp(4)))})
+                     Return acc
+                 End Function, New List(Of Day16.Range))
+
+        Dim RulesTup = RawInput.Take(RawInput.FindIndex(Function(s) s = "your ticket:") - 1).ToList.
+            Fold(Function(S, acc)
+                     Dim sp = S.Match("{0}: {1}-{2} or {3}-{4}")
+                     acc.Add(New Day16.RangeTupel(New Day16.Range(sp(0), CUInt(sp(1)), CUInt(sp(2))), New Day16.Range(sp(0), CUInt(sp(3)), CUInt(sp(4)))))
+                     Return acc
+                 End Function, New List(Of Day16.RangeTupel))
+
+        Dim MyTicket() As String = RawInput.ElementAt(RawInput.FindIndex(Function(s) s = "your ticket:") + 1).Split(","c)
+        RawInput.RemoveRange(0, RawInput.FindIndex(Function(s) s = "nearby tickets:") + 1)
+        Dim NearbyTickets = RawInput
+        Dim TicketRules As New Day16.TicketRules(Rules)
+        Dim fails = NearbyTickets.Fold(Function(L, acc)
+                                           For Each v In L.Split(","c)
+                                               If Not TicketRules.Test(CUInt(v)) Then
+                                                   acc += CUInt(v)
+                                               End If
+                                           Next
+                                           Return acc
+                                       End Function, CULng(0))
+        NearbyTickets.RemoveAll(Function(x) Not TicketRules.TestRange(x))
+        Console.WriteLine(fails)
+
+        Dim Solver As New Day16.TicketMatcher(RulesTup)
+        For Each Ticket In NearbyTickets
+            Solver.Compute(Ticket)
+        Next
+        Dim MatcherDict = Solver.MatchDictAndRanges()
+
+        Dim accum As ULong = 1
+        For I As Integer = 0 To MyTicket.Count - 1
+            Dim key = MatcherDict(I)
+            If key.StartsWith("departure") Then
+                accum *= CULng(MyTicket(I))
+            End If
+        Next
+        Console.WriteLine(accum)
     End Sub
 
     Private Sub Day15()
