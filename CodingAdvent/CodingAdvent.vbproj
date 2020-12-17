@@ -84,6 +84,7 @@
     <Compile Include="Day13\ModOp.vb" />
     <Compile Include="Day14\DockingComputer.vb" />
     <Compile Include="Day16\Range.vb" />
+    <Compile Include="Day17\CubeGrid3D.vb" />
     <Compile Include="Day4\Passport.vb" />
     <Compile Include="Day7\Rule.vb" />
     <Compile Include="Day8\HandHeldConsoleSimulator.vb" />
@@ -139,6 +140,8 @@
     <Content Include="Inputs\Inp14.txt" />
     <Content Include="Inputs\Inp14_1.txt" />
     <Content Include="Inputs\Inp16.txt" />
+    <Content Include="Inputs\Inp17.txt" />
+    <Content Include="Inputs\Inp17_1.txt" />
     <Content Include="Inputs\Inp2.txt" />
     <Content Include="Inputs\Inp3.txt" />
     <Content Include="Inputs\Inp4.txt" />

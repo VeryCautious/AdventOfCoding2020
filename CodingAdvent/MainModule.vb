@@ -3,12 +3,30 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day16()
+        Day17()
         Console.ReadKey()
     End Sub
 
+    Private Sub Day17()
+        Dim G As New Day17.CubeGrid3D(GetInpLineByLine(17))
+        Console.WriteLine(G.PlaneToString(0))
+        For i As Integer = 0 To 5
+            G = G.GetNextIteration()
+        Next
+        Console.WriteLine(G.ActiveCubes)
+
+
+        Dim G2 As New Day17.CubeGrid4D(GetInpLineByLine(17))
+
+        For i As Integer = 0 To 5
+            G2 = G2.GetNextIteration()
+        Next
+        Console.WriteLine(G2.ActiveCubes)
+
+    End Sub
+
     Private Sub Day16()
-        ''Again... not clean code but I hade a busy day ;)
+        ''Again... not clean code but I had a busy day ;)
         Dim RawInput = GetInpLineByLine(16)
         Dim Rules = RawInput.Take(RawInput.FindIndex(Function(s) s = "your ticket:") - 1).ToList.
             Fold(Function(S, acc)
