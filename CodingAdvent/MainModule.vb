@@ -3,8 +3,22 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        Day17()
+        FDay18()
         Console.ReadKey()
+    End Sub
+
+    Private Sub FDay18()
+        Dim Therms1 = GetInpLineByLine(18).Map(
+            Function(x) Day18.Therm.PaseString(x.Replace(" ", ""), {{"+"c, "*"c}.ToList})
+            )
+        Dim sum = Therms1.Fold(Function(t, acc) acc + t.Value, CLng(0))
+        Console.WriteLine(sum)
+
+        Dim Therms2 = GetInpLineByLine(18).Map(
+            Function(x) Day18.Therm.PaseString(x.Replace(" ", ""), {{"*"c}.ToList, {"+"c}.ToList})
+            )
+        Dim sum2 = Therms2.Fold(Function(t, acc) acc + t.Value, CLng(0))
+        Console.WriteLine(sum2)
     End Sub
 
     Private Sub Day17()
