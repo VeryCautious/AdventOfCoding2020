@@ -86,6 +86,7 @@
     <Compile Include="Day16\Range.vb" />
     <Compile Include="Day17\CubeGrid3D.vb" />
     <Compile Include="Day18\Therm.vb" />
+    <Compile Include="Day19\Regel.vb" />
     <Compile Include="Day4\Passport.vb" />
     <Compile Include="Day7\Rule.vb" />
     <Compile Include="Day8\HandHeldConsoleSimulator.vb" />
@@ -144,6 +145,8 @@
     <Content Include="Inputs\Inp17.txt" />
     <Content Include="Inputs\Inp17_1.txt" />
     <Content Include="Inputs\Inp18.txt" />
+    <Content Include="Inputs\Inp19.txt" />
+    <Content Include="Inputs\Inp19_1.txt" />
     <Content Include="Inputs\Inp2.txt" />
     <Content Include="Inputs\Inp3.txt" />
     <Content Include="Inputs\Inp4.txt" />

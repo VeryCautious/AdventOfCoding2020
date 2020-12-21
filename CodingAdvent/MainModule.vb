@@ -3,8 +3,34 @@
     Sub Main()
         My.Computer.FileSystem.CurrentDirectory = "C:\Users\iansk\source\repos\CodingAdvent\CodingAdvent\Inputs"
 
-        FDay18()
+        FDay19()
+
         Console.ReadKey()
+    End Sub
+
+    Private Sub FDay19()
+        Dim RawInp = GetInpLineByLine("19")
+        Dim Rules = RawInp.GetRange(0, RawInp.IndexOf(""))
+
+        Dim NormalizedRules = Day19.ChompskyNormalizer.Normalize(Rules)
+        Dim TryMatches = RawInp.GetRange(RawInp.IndexOf("") + 1, RawInp.Count - (RawInp.IndexOf("") + 1))
+        Dim Cyk As New Day19.CYK(NormalizedRules, "0")
+
+        Dim Count As New List(Of Integer)
+        Parallel.ForEach(TryMatches, Sub(x) If Cyk.CanBeConstructed(x) Then Count.Add(1))
+        Console.WriteLine("Without loops: " + Count.Sum.ToString)
+
+        Debug.Assert(Rules.Remove("8: 42"))
+        Debug.Assert(Rules.Remove("11: 42 31"))
+        Rules.Add("8: 42 | 42 8")
+        Rules.Add("11: 42 31 | 42 11 31")
+
+        NormalizedRules = Day19.ChompskyNormalizer.Normalize(Rules)
+        Cyk = New Day19.CYK(NormalizedRules, "0")
+        Count.Clear()
+
+        Parallel.ForEach(TryMatches, Sub(x) If Cyk.CanBeConstructed(x) Then Count.Add(1))
+        Console.WriteLine("With loops: " + Count.Sum.ToString)
     End Sub
 
     Private Sub FDay18()
